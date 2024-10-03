@@ -11,3 +11,9 @@ rules:
   steps:
   - intent: bot_challenge
   - action: utter_iamabot
+
+- rule: Say to specify interest area anytimes the user asks for a course
+  steps:
+  - intent: request_master_programs
+  - action: utter_ask_area_of_interest
+
