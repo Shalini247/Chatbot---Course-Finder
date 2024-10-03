@@ -28,3 +28,13 @@ stories:
   - action: utter_did_that_help
   - intent: deny
   - action: utter_goodbye
+
+- story: specify area of interest
+  steps:
+  - intent: specify_area_of_interest
+  - slot_was_set: 
+    - area_of_interest: "Engineering"
+  - action: action_list_courses
+  
+
+
