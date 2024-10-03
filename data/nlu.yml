@@ -89,3 +89,16 @@ nlu:
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
+
+- intent: request_master_programs
+  examples: |
+    - What Master's programs do you offer?
+    - Tell me about the Master's courses.
+    - I'm interested in Master's degrees.
+
+- intent: specify_area_of_interest
+  examples: |
+    - I'm interested in Engineering.
+    - How about Information Technology?
+    - I want to know about the courses in Design.
+
