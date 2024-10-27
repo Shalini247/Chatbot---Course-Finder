@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MILO - Chatbot</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('image.jpg'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Top section */
+        #header {
+            background-image: url('MILO.jpg'); /* Replace with your header image URL */
+            background-size: cover; /* Ensures the header image covers the area */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; /* Prevents repeating of the image */
+            height: 150px; /* Fixed height for the header */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #2980b9;
+            opacity: 0.9; /* Optional: add some transparency */
+        }
+
+        #welcome-message {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        h1 {
+            margin: 20px 0 0 0;
+            font-size: 28px;
+            text-align: center;
+            color: #fff;
+        }
+
+        #chatbox {
+            width: 320px;
+            height: 450px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            overflow-y: scroll;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            margin: 20px auto;
+        }
+
+        #user-input {
+            width: 240px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 5px;
+        }
+
+        #send-button {
+            padding: 10px 15px;
+            background-color: #e67e22;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        #send-button:hover {
+            background-color: #d35400;
+            transform: scale(1.05);
+        }
+
+        .user-message, .bot-message {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+            transition: opacity 0.3s;
+        }
+
+        .user-message {
+            background-color: rgba(74, 144, 226, 0.8);
+            color: white;
+            align-self: flex-end; /* Align user messages to the right */
+        }
+
+        .bot-message {
+            background-color: rgba(39, 174, 96, 0.8);
+            color: white;
+            align-self: flex-start; /* Align bot messages to the left */
+        }
+
+        a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <div id="welcome-message"></div>
+    </div>
+    <h1></h1>
+    <div id="chatbox" class="chat-container"></div>
+    <div style="text-align: center;">
+        <input type="text" id="user-input" placeholder="Type a message...">
+        <button id="send-button">Send</button>
+    </div>
+
+    <script>
+        const chatbox = document.getElementById("chatbox");
+        const userInput = document.getElementById("user-input");
+        const sendButton = document.getElementById("send-button");
+
+        sendButton.onclick = function() {
+            const userMessage = userInput.value;
+            if (userMessage.trim() === '') return; // Prevent empty messages
+            
+            chatbox.innerHTML += `<div class="user-message">User: ${userMessage}</div>`;
+            userInput.value = '';
+
+            fetch('http://localhost:5005/webhooks/rest/webhook', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ sender: 'user', message: userMessage })
+            })
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(msg => {
+                    const formattedMessage = msg.text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+                    
+                    const isNumbered = /^[1-9]\.\s.*(?:\n[1-9]\.\s.*)*$/gm.test(formattedMessage);
+                    if (isNumbered) {
+                        const numberedMessages = formattedMessage.split('\n').map(line => line.trim()).join('<br>');
+                        chatbox.innerHTML += `<div class="bot-message">Bot:<br>${numberedMessages}</div>`;
+                    } else {
+                        chatbox.innerHTML += `<div class="bot-message">Bot: ${formattedMessage}</div>`;
+                    }
+                });
+                chatbox.scrollTop = chatbox.scrollHeight;
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                chatbox.innerHTML += `<div class="bot-message">Bot: Sorry, there was an error.</div>`;
+                chatbox.scrollTop = chatbox.scrollHeight;
+            });
+        };
+    </script>
+</body>
+</html>
