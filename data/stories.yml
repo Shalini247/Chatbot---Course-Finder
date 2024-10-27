@@ -5,14 +5,14 @@ stories:
 - story: happy path
   steps:
   - intent: greet
-  - action: utter_greet
+  - action: utter_iamabot
   - intent: mood_great
   - action: utter_happy
 
 - story: sad path 1
   steps:
   - intent: greet
-  - action: utter_greet
+  - action: utter_iamabot
   - intent: mood_unhappy
   - action: utter_cheer_up
   - action: utter_did_that_help
@@ -22,7 +22,7 @@ stories:
 - story: sad path 2
   steps:
   - intent: greet
-  - action: utter_greet
+  - action: utter_iamabot
   - intent: mood_unhappy
   - action: utter_cheer_up
   - action: utter_did_that_help
@@ -37,4 +37,28 @@ stories:
   - action: action_list_courses
   
 
+- story: ask for enrollment info
+  steps:
+  - intent: ask_enrollment_info
+  - action: action_show_enrollment_info
 
+- story: ask to enroll
+  steps:
+  - intent: ask_enroll
+  - action: action_show_enroll_steps
+
+
+- story: ask for semester checklist
+  steps:
+  - intent: ask_semester_checklist
+  - action: action_show_semester_checklist
+
+- story: Ask for data science programs
+  steps:
+  - intent: ask_data_science_programs
+  - action: action_filter_data_science_programs
+
+- story: ask for course details
+  steps:
+  - intent: specify_university_of_interest
+  - action: action_get_course_details

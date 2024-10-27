@@ -16,4 +16,3 @@ rules:
   steps:
   - intent: request_master_programs
   - action: utter_ask_area_of_interest
-

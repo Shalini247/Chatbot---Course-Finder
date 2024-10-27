@@ -29,6 +29,7 @@ nlu:
     - see you around
     - bye bye
     - see you later
+    - Thank You.Bye
 
 - intent: affirm
   examples: |
@@ -101,4 +102,32 @@ nlu:
     - I'm interested in Engineering.
     - How about Information Technology?
     - I want to know about the courses in Design.
+
+- intent: ask_enrollment_info
+  examples: |
+    - What do I need to enroll?
+    - Can you tell me about the enrollment process?
+    
+- intent: ask_enroll
+  examples: |
+    - How do I enroll?
+    - What are the steps to enroll?
+    - What are the next steps?
+
+- intent: ask_semester_checklist
+  examples: |
+    - Do you have a checklist for me to get started before the semester?
+    - Can you give me some tips on how to prepare for the semester?
+
+- intent: ask_data_science_programs
+  examples: |
+    - Can I get the Masters Programs on Data Science
+    - I am interested in doing a Master in Data Science
+    - Data Science
+
+- intent: specify_university_of_interest
+  examples: |
+    - RMIT University
+    - Deakin University
+    - RMIT
 
