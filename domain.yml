@@ -10,6 +10,11 @@ intents:
   - bot_challenge
   - request_master_programs
   - specify_area_of_interest
+  - ask_enrollment_info
+  - ask_enroll
+  - ask_semester_checklist
+  - ask_data_science_programs
+  - specify_university_of_interest
 
 
 
@@ -25,6 +30,18 @@ slots:
     mappings:
       - type: from_intent
         intent: specify_area_of_interest
+        value: true  # This will set the slot to true when the intent is recognized
+  university_of_interest:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_text
+  awaiting_university_of_interest:
+    type: bool
+    initial_value: false
+    mappings:
+      - type: from_intent
+        intent: specify_university_of_interest
         value: true  # This will set the slot to true when the intent is recognized
 
 responses:
@@ -42,19 +59,48 @@ responses:
   - text: "Great, carry on!"
 
   utter_goodbye:
-  - text: "Bye"
+  - text: "Thank you for chatting with me! If you ever need more help or assistance, feel free to come back anytime. Take care!"
 
   utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
+  - text: "Hello! I’m Milo, your friendly guide to exploring degree options at Melbourne's universities. Whether you're searching for the perfect course, navigating the enrollment process, or need any information along the way, I’m here to help. Let’s make your journey to higher education smooth and informed! What can I assist you with today?"
 
   utter_courses:
     - text: "Here are the courses we offer."
 
   utter_ask_area_of_interest:
-    - text: "Please specify an area of interest (e.g., Engineering / Information Technology)."
+    - text: "Woah! I've got a Smart One Today. Please specify an area of interest (e.g., Engineering / Information Technology)."
+  
+  utter_enrollment_info:
+    - text: |
+        Congratulations on Your New Semester. Before enrolling, please make sure you have the following information:
+        {info_list}
+        For more details, visit ({info_url}).
+        
+  utter_enroll_steps:
+    - text: |
+        To enroll, please follow these steps:
+        {enroll_steps}
+        For more details, visit ({info_url}).
+  
+  utter_semester_checklist:
+    - text: |
+        I hope you have a great semester! To make it enjoyable, here are some tips and tricks to get started:
+        {checklist_items}
+        For more details, visit ({info_url}.
+
+  utter_show_data_science_programs:
+    - text: "The following universities offer Masters of Data Science Programs:\n{program_list}"
+
+  
+
 
 actions:
   - action_list_courses
+  - action_show_enroll_steps
+  - action_show_enrollment_info
+  - action_show_semester_checklist
+  - action_filter_data_science_programs
+  - action_get_course_details
 
 
 
